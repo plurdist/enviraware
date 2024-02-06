@@ -7,23 +7,23 @@ import os
 if not os.path.exists('daily_plots'):
     os.makedirs('daily_plots')
 
-cheese = pd.read_csv('feeds_cleaned.csv')
+feeds = pd.read_csv('feeds_cleaned.csv')
 
-# cheese_subset = cheese.head(1000)
-# cheese_desc = cheese.describe()
+# cheese_subset = feeds.head(1000)
+# cheese_desc = feeds.describe()
 
 # print(cheese_subset.iloc[:,1])
 
-cheese['created_at'] = pd.to_datetime(cheese['created_at'], errors='coerce', utc=True)
+feeds['created_at'] = pd.to_datetime(feeds['created_at'], errors='coerce', utc=True)
 
-cheese['created_at_date'] = cheese.created_at.dt.date
+feeds['created_at_date'] = feeds.created_at.dt.date
 
 
 # desired_date = input("provide the date: ")
-# filtered_df = cheese[cheese['created_at'].dt.date == pd.to_datetime(desired_date).date()]
+# filtered_df = feeds[feeds['created_at'].dt.date == pd.to_datetime(desired_date).date()]
 
 
-for date, subset in cheese.groupby('created_at_date'):
+for date, subset in feeds.groupby('created_at_date'):
     x = subset.iloc[:, 0]
     y = subset.iloc[:, 9]
     fig, ax = plt.subplots()
@@ -31,8 +31,8 @@ for date, subset in cheese.groupby('created_at_date'):
     plt.savefig(f'daily_plots/{date}.png')
     plt.close(fig)
 
-# for index, row in cheese.iterrows():
-#     filtered_df = cheese[cheese['created_at'].dt.date == pd.to_datetime(row['created_at_date']).date()]
+# for index, row in feeds.iterrows():
+#     filtered_df = feeds[feeds['created_at'].dt.date == pd.to_datetime(row['created_at_date']).date()]
 #     x = filtered_df.iloc[:,0]
 #     y = filtered_df.iloc[:,9]
 #     fig, ax = plt.subplots()
@@ -45,8 +45,8 @@ for date, subset in cheese.groupby('created_at_date'):
 summary_stats_list = []
 
 # Iterate over numerical columns
-for col in cheese.select_dtypes(include='number').columns:
-    column_stats = describe(cheese[col], axis=0, nan_policy='omit')
+for col in feeds.select_dtypes(include='number').columns:
+    column_stats = describe(feeds[col], axis=0, nan_policy='omit')
     
     # Create a dictionary for each column
     col_dict = {

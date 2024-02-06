@@ -38,21 +38,21 @@ try:
                 # Check if MIDI mappings are already done
                 if not mapping_done:
                     # MAP MIDI CC messages for each sensor
-                    input("Press Enter to continue...")
+                    input("Mapping MIDI CC for pm1p0. Press Enter to continue...")
                     scale_and_send(pm1p0, rolling_mins[1], rolling_maxs[1], 1)
-                    input("Press Enter to continue...")
+                    input("Mapping MIDI CC for pm2p5. Press Enter to continue...")
                     scale_and_send(pm2p5, rolling_mins[2], rolling_maxs[2], 2)
-                    input("Press Enter to continue...")
+                    input("Mapping MIDI CC for pm4p0. Press Enter to continue...")
                     scale_and_send(pm4p0, rolling_mins[3], rolling_maxs[3], 3)
-                    input("Press Enter to continue...")
+                    input("Mapping MIDI CC for pm10p0. Press Enter to continue...")
                     scale_and_send(pm10p0, rolling_mins[4], rolling_maxs[4], 4)
-                    input("Press Enter to continue...")
+                    input("Mapping MIDI CC for humidity. Press Enter to continue...")
                     scale_and_send(humidity, rolling_mins[5], rolling_maxs[5], 5)
-                    input("Press Enter to continue...")
+                    input("Mapping MIDI CC for temperature. Press Enter to continue...")
                     scale_and_send(temperature, rolling_mins[6], rolling_maxs[6], 6)
-                    input("Press Enter to continue...")
+                    input("Mapping MIDI CC for voc_index. Press Enter to continue...")
                     scale_and_send(voc_index, rolling_mins[7], rolling_maxs[7], 7)
-                    input("Press Enter to continue...")
+                    input("Mapping MIDI CC for nox_index. Press Enter to continue...")
                     scale_and_send(nox_index, rolling_mins[8], rolling_maxs[8], 8)
 
                     # Set the flag to True to indicate that MIDI mappings are done
