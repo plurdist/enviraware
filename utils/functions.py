@@ -10,6 +10,7 @@ def scale_and_send(sensor_value, rolling_min, rolling_max, cc_number):
     cc_msg = [0xB4, cc_number, scaled_value]
     out.send_message(cc_msg)
     print(f"Sent CC message for sensor {cc_number}: {scaled_value}")
+    print(normalised_value)
 
 def normalise_value(value, in_min, in_max):
     # Check for zero denominator
@@ -30,7 +31,7 @@ def update_rolling_min_max(sensor_number, value, rolling_mins, rolling_maxs, rec
         if mean_value - threshold * stdev_value <= value <= mean_value + threshold * stdev_value:
             rolling_mins[sensor_number] = min(rolling_mins[sensor_number], value)
             rolling_maxs[sensor_number] = max(rolling_maxs[sensor_number], value)
-            scale_and_send(value, rolling_mins[sensor_number], rolling_maxs[sensor_number], sensor_to_cc[sensor_number])
+            # scale_and_send(value, rolling_mins[sensor_number], rolling_maxs[sensor_number], sensor_to_cc[sensor_number])
         else:
             print(f"Outlier detected for sensor {sensor_number}: {value}. Ignoring...")
     else:
@@ -42,15 +43,19 @@ def parse_serial_data(serial_data, rolling_mins, rolling_maxs, recent_values, se
 
     # Ensure there are enough elements in the list
     if len(values) >= 8:
+        try:
         # Extract specific values based on their positions
-        pm1p0 = float(values[0].split(':')[1])
-        pm2p5 = float(values[1].split(':')[1])
-        pm4p0 = float(values[2].split(':')[1])
-        pm10p0 = float(values[3].split(':')[1])
-        humidity = float(values[4].split(':')[1])
-        temperature = float(values[5].split(':')[1])
-        voc_index = float(values[6].split(':')[1])
-        nox_index = float(values[7].split(':')[1])
+            pm1p0 = float(values[0].split(':')[1])
+            pm2p5 = float(values[1].split(':')[1])
+            pm4p0 = float(values[2].split(':')[1])
+            pm10p0 = float(values[3].split(':')[1])
+            humidity = float(values[4].split(':')[1])
+            temperature = float(values[5].split(':')[1])
+            voc_index = float(values[6].split(':')[1])
+            nox_index = float(values[7].split(':')[1])
+        except (ValueError, IndexError) as e:
+            print(f"Error extracting values: {e}")
+            return None
 
         # Update rolling min and max values for each sensor
         update_rolling_min_max(1, pm1p0, rolling_mins, rolling_maxs, recent_values, sensor_to_cc)

@@ -70,6 +70,10 @@ try:
                 scale_and_send(temperature, rolling_mins[6], rolling_maxs[6], 6)
                 scale_and_send(voc_index, rolling_mins[7], rolling_maxs[7], 7)
                 scale_and_send(nox_index, rolling_mins[8], rolling_maxs[8], 8)
+
+                print(rolling_maxs)
+                print(rolling_mins)
+                
 except KeyboardInterrupt:
     ser.close()
     out.close_port()
